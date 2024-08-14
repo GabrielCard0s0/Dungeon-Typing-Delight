@@ -28,4 +28,21 @@ moves = ['Walking...', 'Climbing...', 'Sneaking...', 'Turning around...',
 
 initialmove = 'Entering the cave...'
 
+walkinfo = [
+    'You are walking...',
+    'You are walking through the cave.',
+    'You take a step forward, the sound echoes off the walls.',
+    'Your footsteps are the only sound in the darkness.',
+    'You continue on your journey, the cave stretches out before you.',
+    'You walk cautiously, the ground beneath your feet is uneven.',
+    'You make your way deeper into the cave, the air grows thick.',
+    'You walk with purpose, your heart beats with anticipation.',
+    'You take a deep breath, the smell of damp earth fills your nostrils.',
+    'You move forward, the sound of dripping water grows louder.',
+]
+
 inventory = []
+
+current_location = 'Initial'
+
+follow = ['North', 'South', 'East', 'West']
