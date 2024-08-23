@@ -1,4 +1,4 @@
-import colorama
+import colorama, random
 from colorama import*
 
 Docs = ['Item Rarity is defined by it color. \nYellow to most powerful items. \nBlue to items strongs. \nGreen to good items. \nIf the item has not color, you should find a better one...',
@@ -55,3 +55,9 @@ current_location = 'Initial'
 follow = ['North', 'South', 'East', 'West']
 
 chest_event = False
+
+player_pv = 100
+player_pe = 50
+
+enemy_pv = random.randint(25,50)
+enemy_pe = random.randint(10,25)
