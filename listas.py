@@ -59,5 +59,6 @@ chest_event = False
 player_pv = 100
 player_pe = 50
 
+enemy_str = 50
 enemy_pv = random.randint(25,50)
 enemy_pe = random.randint(10,25)

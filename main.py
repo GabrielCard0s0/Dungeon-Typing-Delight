@@ -1,5 +1,5 @@
 import time, sys, random, colorama
-from listas import weaponmelee, initialmove, moves, inventory, walkinfo, current_location, follow, player_pv, player_pe, enemy_pe, enemy_pv
+from listas import weaponmelee, initialmove, moves, inventory, walkinfo, current_location, follow, player_pv, player_pe, enemy_pe, enemy_pv, enemy_str
 from colorama import *
 
 def main():
@@ -135,7 +135,7 @@ def WalkChoice():
         return WalkChoice()
 
 def Battle_Enemy():
-    global player_pv, player_pe, enemy_pv, enemy_pe, inventory
+    global player_pv, player_pe, enemy_pv, enemy_pe, inventory, enemy_str
     print('-'*30)
     print(f"You are battling an enemy with {enemy_pv} PV and {enemy_pe} PE!")
     print('-'*30)
@@ -195,6 +195,11 @@ def Battle_Enemy():
         sys.exit()
     else:
         print("You defeated the enemy!")
+        enemy_pe = random.randint(15,25)
+        enemy_pv = random.randint(25,50)
+        enemy_pe += enemy_str
+        enemy_pv += enemy_str
+        enemy_str += 10
         return Chest_Event()
     
 def North_Event():
