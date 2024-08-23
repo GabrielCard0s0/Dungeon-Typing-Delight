@@ -1,14 +1,13 @@
+import time, sys, random, colorama
 from listas import weaponmelee, initialmove, moves, inventory, walkinfo, current_location, follow
-import time
-import sys
-import random
+from colorama import *
 
 def main():
     time.sleep(1)
     print('-'*30)
-    print('Select an option:\n', '1. Start Game\n', '2. Exit')
+    print('Select an option:\n', Fore.GREEN + '1. Start Game\n' + Style.RESET_ALL, Fore.YELLOW + '2. Exit' + Style.RESET_ALL)
     print('-'*30)
-    option = int(input())
+    option = int(input('Type the option: '))
 
     time.sleep(1)
 
@@ -16,7 +15,7 @@ def main():
         print('-'*30)
         print('Starting...')
         print('-'*30)
-        return Initial()
+        return Initial_Step()
     elif option == 2:
         Ending()
     else:
@@ -26,14 +25,14 @@ def main():
 
 def Get_Random_walkinfo():
     return random.choice(walkinfo)
-
+    
 def Ending():
     print('-'*30)
     print('Ending...')
     print('-'*30)
     sys.exit()
 
-def Initial():
+def Initial_Step():
     time.sleep(1)
     print('...Lets get started right away:')
     print(initialmove)
@@ -43,9 +42,9 @@ def Initial():
     time.sleep(1)
     print(random.choices(moves, k=1))
     time.sleep(1)
-    return InitialWeapon()
+    return Chest_Event()
     
-def InitialWeapon():
+def Chest_Event():
     time.sleep(2)
     print('-'*30)
     print('You have found a chest!')
@@ -83,6 +82,7 @@ def manage_inventory():
     print("You have the following items in your inventory:")
     for item in inventory:
         print(item)
+    return WalkChoice()
 
 def WalkChoice():
     time.sleep(1)
@@ -105,6 +105,14 @@ def WalkChoice():
         direction = int(input('Choose a direction: '))
         move_player(direction)
         print(f'You are now in the {current_location}')
+        if current_location == 'South':
+            pass
+        elif current_location == 'North':
+            pass
+        elif current_location == 'West':
+            pass
+        elif current_location == 'East':
+            pass
         return WalkChoice()
     elif choice == 3:
         manage_inventory()
@@ -114,8 +122,18 @@ def WalkChoice():
         print("Invalid direction. Please try again.")
         time.sleep(1)
         return WalkChoice()
-    
+
+def South_Event():
+    pass
+def North_Event():
+    pass
+def West_Event():
+    pass
+def East_event():
+    pass
+
+
 print('-'*30)
-print('Welcome to Dungeon Python!')
+print(Style.BRIGHT + Fore.RED + 'Welcome to Dungeon Typing Delight!'+ Style.RESET_ALL)
 print('-'*30)
 main()

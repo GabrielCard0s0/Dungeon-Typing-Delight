@@ -1,22 +1,29 @@
+import colorama
+from colorama import*
+
+Docs = ['Item Rarity is defined by it color. \nYellow to most powerful items. \nBlue to items strongs. \nGreen to good items. \nIf the item has not color, you should find a better one...',
+        
+        ]
+
 weaponmelee = {
     'knife': {'dano': 5},
-    'sword': {'dano': 10},
-    'broadsword': {'dano': 15},
-    'shortsword': {'dano': 8},
+    Fore.BLUE + 'sword' + Style.RESET_ALL: {'dano': 10},
+    Fore.YELLOW + 'broadsword' + Style.RESET_ALL: {'dano': 15},
+    Fore.GREEN + 'shortsword' + Style.RESET_ALL: {'dano': 8},
     'dagger': {'dano': 4},
     'pocket knife': {'dano': 3},
     'brass knuckles': {'dano': 6},
     'baseball bat': {'dano': 7},
     'golf bat': {'dano': 6},
-    'spear': {'dano': 12},
-    'saber': {'dano': 11},
+    Fore.BLUE + 'spear' + Style.RESET_ALL: {'dano': 12},
+    Fore.BLUE + 'saber' + Style.RESET_ALL: {'dano': 11},
     'scissors': {'dano': 5},
-    'katana': {'dano': 14},
+    Fore.YELLOW + 'katana' + Style.RESET_ALL: {'dano': 14},
     'screwdriver': {'dano': 4},
-    'machete': {'dano': 9},
-    'mace': {'dano': 13},
+    Fore.GREEN + 'machete' + Style.RESET_ALL: {'dano': 9},
+    Fore.BLUE + 'mace' + Style.RESET_ALL: {'dano': 13},
     'chain': {'dano': 7},
-    'sickle': {'dano': 8},
+    Fore.GREEN + 'sickle' + Style.RESET_ALL: {'dano': 8},
 }
 
 moves = ['Walking...', 'Climbing...', 'Sneaking...', 'Turning around...',
@@ -26,7 +33,7 @@ moves = ['Walking...', 'Climbing...', 'Sneaking...', 'Turning around...',
 
 
 
-initialmove = 'Entering the cave...'
+initialmove = Fore.YELLOW + 'Entering the cave...' + Style.RESET_ALL
 
 walkinfo = [
     'You are walking...',
@@ -46,3 +53,5 @@ inventory = []
 current_location = 'Initial'
 
 follow = ['North', 'South', 'East', 'West']
+
+chest_event = False
