@@ -1,8 +1,8 @@
 import colorama, random
 from colorama import*
 
-Docs = ['Item Rarity is defined by it color. \nYellow to most powerful items. \nBlue to items strongs. \nGreen to good items. \nIf the item has not color, you should find a better one...',
-        
+Docs = ['Item Rarity is defined by it color,' 'Yellow to most powerful items.', 'Blue to items strongs', 'Green to good items.', 'If the item has not color, you should find a better one...',
+        'South to battle.', 'East to market.', 'Enemies will return stronger than before. You should prepare.',
         ]
 
 weaponmelee = {
@@ -24,6 +24,33 @@ weaponmelee = {
     Fore.BLUE + 'mace' + Style.RESET_ALL: {'dano': 13},
     'chain': {'dano': 7},
     Fore.GREEN + 'sickle' + Style.RESET_ALL: {'dano': 8},
+        Fore.GREEN + 'rapier' + Style.RESET_ALL: {'dano': 10},
+    Fore.BLUE + 'greatsword' + Style.RESET_ALL: {'dano': 16},
+    'club': {'dano': 8},
+    Fore.YELLOW + 'scimitar' + Style.RESET_ALL: {'dano': 12},
+    'hatchet': {'dano': 6},
+    Fore.GREEN + 'pickaxe' + Style.RESET_ALL: {'dano': 9},
+    'whip': {'dano': 5},
+    Fore.BLUE + 'warhammer' + Style.RESET_ALL: {'dano': 14},
+    'cudgel': {'dano': 7},
+    Fore.YELLOW + 'battle-axe' + Style.RESET_ALL: {'dano': 15},
+    'flail': {'dano': 8},
+    Fore.GREEN + 'mallet' + Style.RESET_ALL: {'dano': 10},
+    'sickle-sword' + Style.RESET_ALL: {'dano': 11},
+        Fore.GREEN + 'falchion' + Style.RESET_ALL: {'dano': 11},
+    'billhook': {'dano': 9},
+    Fore.BLUE + 'halberd' + Style.RESET_ALL: {'dano': 13},
+    'glaive': {'dano': 10},
+    Fore.YELLOW + 'claymore' + Style.RESET_ALL: {'dano': 17},
+    'partisan': {'dano': 12},
+    Fore.GREEN + 'estoc' + Style.RESET_ALL: {'dano': 9},
+    'main-gauche': {'dano': 8},
+    Fore.BLUE + 'bastard sword' + Style.RESET_ALL: {'dano': 14},
+    'war scythe': {'dano': 11},
+    Fore.YELLOW + ' executioner\'s sword' + Style.RESET_ALL: {'dano': 18},
+    'flamberge': {'dano': 13},
+    Fore.GREEN + 'hand axe' + Style.RESET_ALL: {'dano': 7},
+    'morning star': {'dano': 10},
 }
 
 moves = ['Walking...', 'Climbing...', 'Sneaking...', 'Turning around...',
@@ -50,6 +77,8 @@ walkinfo = [
 
 inventory = []
 
+Notes = []
+
 current_location = 'Initial'
 
 follow = ['North', 'South', 'East', 'West']
@@ -58,6 +87,8 @@ chest_event = False
 
 player_pv = 100
 player_pe = 50
+
+player_gold = 100
 
 enemy_str = 50
 enemy_pv = random.randint(25,50)
