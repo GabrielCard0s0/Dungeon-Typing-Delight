@@ -41,13 +41,13 @@ class Player_Inventory:
 class Items_to_Find:
     def __init__(self):
         self.items = {
-            'knife': {'damage': 5},
+            'knife': {'damage': 3},
             Fore.BLUE + 'sword' + Style.RESET_ALL: {'damage': 10},
             Fore.YELLOW + 'broadsword' + Style.RESET_ALL: {'damage': 15},
             Fore.GREEN + 'shortsword' + Style.RESET_ALL: {'damage': 8},
             'dagger': {'damage': 4},
-            'pocket knife': {'damage': 3},
-            'brass knuckles': {'damage': 6},
+            'pocket knife': {'damage': 2},
+            'brass knuckles': {'damage': 5},
             'baseball bat': {'damage': 7},
             'golf bat': {'damage': 6},
             Fore.BLUE + 'spear' + Style.RESET_ALL: {'damage': 12},
@@ -77,13 +77,13 @@ class Items_to_Find:
             Fore.BLUE + 'halberd' + Style.RESET_ALL: {'damage': 13},
             'glaive': {'damage': 10},
             Fore.YELLOW + 'claymore' + Style.RESET_ALL: {'damage': 17},
-            'partisan': {'damage': 12},
+            'partisan': {'damage': 10},
             Fore.GREEN + 'estoc' + Style.RESET_ALL: {'damage': 9},
             'main-gauche': {'damage': 8},
             Fore.BLUE + 'bastard sword' + Style.RESET_ALL: {'damage': 14},
-            'war scythe': {'damage': 11},
+            'war scythe': {'damage': 10},
             Fore.YELLOW + 'executioner\'s sword' + Style.RESET_ALL: {'damage': 18},
-            'flamberge': {'damage': 13},
+            'flamberge': {'damage': 10},
             Fore.GREEN + 'hand axe' + Style.RESET_ALL: {'damage': 7},
             'morning star': {'damage': 10},
         }
@@ -218,7 +218,7 @@ class Moves:
             market.Shop()
         elif choice == 'w':
             moves.Location_Change(choice)
-            #upgrade
+            upgrade.Upgrade_Menu()
         elif choice == 'x':
             game.Game_Over()
         else:
@@ -422,7 +422,90 @@ class Rest_Room:
             
             
 class Upgrade:
-    pass
+    def __init__(self):
+        self.upgrade_options = [
+            '1. Upgrade de saúde (+10 PV)',
+            '2. Upgrade de energia (+10 PE)',
+            '3. Upgrade de dano (+5 de dano)',
+            '4. Upgrade de defesa (+5 de defesa)',
+        ]
+
+    def Upgrade_Menu(self):
+        time.sleep(1)
+        print('-'*50)
+        print('Você está no menu de upgrades!')
+        print('-'*50)
+        for option in self.upgrade_options:
+            print(option)
+        choice = int(input('> '))
+        if choice == 1:
+            self.Upgrade_Health()
+        elif choice == 2:
+            self.Upgrade_Energy()
+        elif choice == 3:
+            self.Upgrade_Damage()
+        elif choice == 4:
+            self.Upgrade_Defense()
+        else:
+            print('-'*50)
+            print('Opção inválida!')
+            print('-'*50)
+
+    def Upgrade_Health(self):
+        time.sleep(1)
+        if player.player_gold >= 100:
+            player.player_health += 10
+            player.player_gold -= 100
+            print('-'*50)
+            print('Você atualizou sua saúde!')
+            print('-'*50)
+        else:
+            time.sleep(1)
+            print('-'*50)
+            print('Você não tem ouro suficiente!')
+            print('-'*50)
+
+    def Upgrade_Energy(self):
+        time.sleep(1)
+        if player.player_gold >= 100:
+            player.player_energy += 10
+            player.player_gold -= 100
+            print('-'*50)
+            print('Você atualizou sua energia!')
+            print('-'*50)
+        else:
+            time.sleep(1)
+            print('-'*50)
+            print('Você não tem ouro suficiente!')
+            print('-'*50)
+
+    def Upgrade_Damage(self):
+        time.sleep(1)
+        if player.player_gold >= 200:
+            player.player_level_rate += 0.05
+            player.player_gold -= 200
+            print('-'*50)
+            print('Você atualizou seu dano!')
+            print('-'*50)
+        else:
+            time.sleep(1)
+            print('-'*50)
+            print('Você não tem ouro suficiente!')
+            print('-'*50)
+
+    def Upgrade_Defense(self):
+        time.sleep(1)
+        if player.player_gold >= 200:
+            player.player_health += 5
+            player.player_gold -= 200
+            print('-'*50)
+            print('Você atualizou sua defesa!')
+            print('-'*50)
+        else:
+            time.sleep(1)
+            print('-'*50)
+            print('Você não tem ouro suficiente!')
+            print('-'*50)
 
 class Game:
     def __init__(self):
@@ -443,7 +526,6 @@ class Game:
 
     def Gaming(self):
         self.Options()
-        moves.First_Step()
         items_to_find.Chest_Event()
         while self.game_over != True:
             moves.Self_Walk_Info()
@@ -509,5 +591,6 @@ moves = Moves()
 game = Game()
 battle = Battle()
 market = Market()
+upgrade = Upgrade()
 
 game.Gaming()
