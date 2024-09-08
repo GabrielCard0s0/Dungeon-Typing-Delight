@@ -3,9 +3,9 @@ from colorama import *
 
 class Player:
     def __init__(self, health, energy, gold, rest):
-        self.player_health = float(health)
-        self.player_energy = float(energy)
-        self.player_gold = float(gold)
+        self.player_health = round(float(health), 2)
+        self.player_energy = round(float(energy), 2)
+        self.player_gold = round(float(gold), 2)
         self.player_level_rate = 0
         self.player_level = 1
 
@@ -14,7 +14,8 @@ class Player:
         print('-'*50)
         print(f'Your current status: PV {Fore.GREEN}{self.player_health}{Style.RESET_ALL}')
         print(f'Your current status: PE {Fore.YELLOW}{self.player_energy}{Style.RESET_ALL}')
-        print(f'You have {Back.YELLOW}{self.player_gold}{Style.RESET_ALL} coins.')
+        print(f'You have {Back.YELLOW}{round(self.player_gold, 2)}{Style.RESET_ALL} coins.')
+        print(f'You have {round(rest_room.player_rest, 2)} sleep-points.')
         print(f'Your current level is: {self.player_level}')
         print('-'*50)
        
@@ -81,7 +82,7 @@ class Items_to_Find:
             'main-gauche': {'damage': 8},
             Fore.BLUE + 'bastard sword' + Style.RESET_ALL: {'damage': 14},
             'war scythe': {'damage': 11},
-            Fore.YELLOW + ' executioner\'s sword' + Style.RESET_ALL: {'damage': 18},
+            Fore.YELLOW + 'executioner\'s sword' + Style.RESET_ALL: {'damage': 18},
             'flamberge': {'damage': 13},
             Fore.GREEN + 'hand axe' + Style.RESET_ALL: {'damage': 7},
             'morning star': {'damage': 10},
@@ -117,10 +118,10 @@ class Player_Notes:
             print(f"{i}. {note}")
 
     def Add_note(self, note):
-        self.notes.append[note]
+        self.notes.append(note)
 
     def Remove_Item(self, note):
-        self.notes.remove[note]
+        self.notes.remove(note)
 
 
 class Notes_to_Find:
@@ -208,7 +209,7 @@ class Moves:
         choice = input('> ').lower()
         if choice == 'n':
             moves.Location_Change(choice)
-            
+            rest_room.Sleep()
         elif choice == 's':
             moves.Location_Change(choice)
             battle.Battle_Enemy()
@@ -217,6 +218,7 @@ class Moves:
             market.Shop()
         elif choice == 'w':
             moves.Location_Change(choice)
+            #upgrade
         elif choice == 'x':
             game.Game_Over()
         else:
@@ -235,7 +237,7 @@ class Market:
         print('-'*50)
         print('Welcome to the Market')
         print('-'*50)
-        print(f'You have {player.player_gold} gold')
+        print(f'You have {round(player.player_gold, 2)} gold')
         print('-'*50)
         time.sleep(1)
         print(f'1. Buy a random Doc (50¢)\n 2. Buy a random chest (1000¢)\n X. go back')
@@ -248,12 +250,13 @@ class Market:
                     print('You has buy a Doc!')
                     print('-'*50)
                     player.player_gold -= 50
-                    random_note = random.sample(sorted(notes_to_find), 1)
+                    random_note = random.sample(sorted(notes_to_find.notes), 1)
                     player_notes.Add_note(random_note)
                     print('-'*50)
                     print(f'Reading Doc...: {random_note}')
                     print('-'*50)
                     time.sleep(1)
+                    break
                 else:
                     time.sleep(1)
                     print('-'*50)
@@ -286,7 +289,7 @@ class Market:
                 print('-'*50)
                 time.sleep(1)
         print('-'*50)
-        print(f'...')
+        print(f'...Returning')
         print('-'*50)
         time.sleep(1)
 
@@ -322,7 +325,7 @@ class Battle:
                 damage = player_inventory.player_items[chosen_weapon]['damage']
                 self.enemy_health -= damage
                 print('-'*50)
-                print(f"You hit the enemy for {damage} damage with your {chosen_weapon}.")
+                print(f"You hit the enemy for {round(damage, 2)} damage with your {chosen_weapon}.")
                 print('-'*50)
                 time.sleep(1)
             elif action == '2':
@@ -339,7 +342,7 @@ class Battle:
                     damage = round(random.uniform(30, 50), 2) + player.player_level_rate
                     self.enemy_health -= damage
                     print('-'*50)
-                    print(f"You use your ability and deal {damage} damage to the enemy")
+                    print(f"You use your ability and deal {round(damage, 2)} damage to the enemy")
                 else:
                     print('-'*50)
                     print("You don't have enough PE to use a special ability!")
@@ -379,7 +382,7 @@ class Battle:
             rest_points = 0.10
             rest_room.player_rest += round(rest_points)
             print('-'*50)
-            print(f'You received {Back.YELLOW}{player_reward}{Style.RESET_ALL} coins. Now you have {Back.YELLOW}{player.player_gold}{Style.RESET_ALL} coins.')
+            print(f'You received {Back.YELLOW}{player_reward}{Style.RESET_ALL} coins. Now you have {Back.YELLOW}{round(player.player_gold, 2)}{Style.RESET_ALL} coins.')
             print('-'*50)
             time.sleep(1)
             items_to_find.Chest_Event()
