@@ -1,5 +1,7 @@
-import random, colorama, sys, lists, time
+import random, colorama, sys, lists, time, wave, pygame
 from colorama import *
+from pydub import AudioSegment
+from pydub.playback import play
 
 class Player:
     def __init__(self, health, energy, gold, rest):
@@ -94,6 +96,7 @@ class Items_to_Find:
         print('You found a chest!')
         print('-'*50)
         weapons = random.sample(sorted(self.items), 3)
+        sounds.Open_chest()
         print('You found the following items:')
         print('-'*50)
         for i, weapon in enumerate(weapons, 1):
@@ -135,20 +138,28 @@ class Notes_to_Find:
             'South to battle.',
             'East to market.', 
             'Enemies will return stronger than before. You should prepare.',
+            'Keep an eye on your health, it can drop quickly!',
+            'Some items have special abilities, use them wisely!',
+            'Don\'t forget to rest and recover your energy!',
+            'Explore the world, there are many secrets to discover!',
+            'Be careful with your gold, you never know when you\'ll need it!',
         ]
 
 
 
 class Moves:
     def __init__(self):
-        self.move = [Fore.YELLOW + 'Entering the world...' + Style.RESET_ALL,
-                     Fore.YELLOW + 'Entering the game...' + Style.RESET_ALL,
-                     Fore.YELLOW + 'Entering the adventure...' + Style.RESET_ALL,
-                     Fore.YELLOW + 'Entering the way...' + Style.RESET_ALL,
-                     Fore.YELLOW + 'Entering the certanly death...' + Style.RESET_ALL,
+        self.move = [
+            Fore.YELLOW + 'Entering the world...' + Style.RESET_ALL,
+            Fore.YELLOW + 'Entering the game...' + Style.RESET_ALL,
+            Fore.YELLOW + 'Entering the adventure...' + Style.RESET_ALL,
+            Fore.YELLOW + 'Entering the way...' + Style.RESET_ALL,
+            Fore.YELLOW + 'Entering the certanly death...' + Style.RESET_ALL,
+            Fore.YELLOW + 'Entering the unknown...' + Style.RESET_ALL,
+            Fore.YELLOW + 'Entering the depths of the cave...' + Style.RESET_ALL,
         ]
-        self.current_location = 'Initial Step...'
-        self.choice = ['Initial Step...', 'North', 'South', 'East', 'West']
+        self.current_location = 'Center'
+        self.choice = ['Center', 'North', 'South', 'East', 'West']
         self.walkinfo = [
             'You are walking...',
             'You are walking through the cave.',
@@ -160,6 +171,17 @@ class Moves:
             'You walk with purpose, your heart beats with anticipation.',
             'You take a deep breath, the smell of damp earth fills your nostrils.',
             'You move forward, the sound of dripping water grows louder.',
+            'You are getting close to something...',
+            'You sense a presence around you.',
+            'You hear a noise coming from a distance.',
+            'You are approaching a fork in the road.',
+            'The path ahead of you is shrouded in darkness.',
+            'You can feel the weight of the cave bearing down on you.',
+            'You are not alone in the cave.',
+            'You hear the sound of scurrying rodents.',
+            'The air is thick with the smell of mold and decay.',
+            'You can see a faint light in the distance.',
+            'You are getting closer to the heart of the cave.',
         ]
 
     def First_Step(self):
@@ -233,6 +255,10 @@ class Market:
         self.market = 0
     
     def Shop(self):
+        print('-'*50)
+        moves.Print_Location
+        print('-'*50)
+        moves.current_location = moves.choice[0]
         time.sleep(1)
         print('-'*50)
         print('Welcome to the Market')
@@ -301,6 +327,10 @@ class Battle:
 
     def Battle_Enemy(self):
         print('-'*50)
+        moves.Print_Location
+        print('-'*50)
+        moves.current_location = moves.choice[0]
+        print('-'*50)
         print(f'You are in a battle with an enemy with PV: {self.enemy_health} and PE: {self.enemy_energy}')
         print('-'*50)
         time.sleep(1)
@@ -325,6 +355,7 @@ class Battle:
                 damage = player_inventory.player_items[chosen_weapon]['damage']
                 self.enemy_health -= damage
                 print('-'*50)
+                sounds.Attack()
                 print(f"You hit the enemy for {round(damage, 2)} damage with your {chosen_weapon}.")
                 print('-'*50)
                 time.sleep(1)
@@ -342,6 +373,7 @@ class Battle:
                     damage = round(random.uniform(30, 50), 2) + player.player_level_rate
                     self.enemy_health -= damage
                     print('-'*50)
+
                     print(f"You use your ability and deal {round(damage, 2)} damage to the enemy")
                 else:
                     print('-'*50)
@@ -374,6 +406,7 @@ class Battle:
             if player.player_level_rate >= 0.10:
                 player.player_level_rate = 0.01
                 player.player_level += 1
+                sounds.Level_Up()
                 print(f'You advanced to next level: {player.player_level}')
             self.enemy_energy = round(random.uniform(15, 25) + self.level, 2)
             self.enemy_health = round(random.uniform(25, 50) + self.level, 2)
@@ -393,6 +426,10 @@ class Rest_Room:
         self.player_rest = 0
     
     def Sleep(self):
+        print('-'*50)
+        moves.Print_Location
+        print('-'*50)
+        moves.current_location = moves.choice[0]
         time.sleep(1)
         print('-'*50)
         print(f'You have {self.player_rest} sleep-points')
@@ -431,6 +468,10 @@ class Upgrade:
         ]
 
     def Upgrade_Menu(self):
+        print('-'*50)
+        moves.Print_Location
+        print('-'*50)
+        moves.current_location = moves.choice[0]
         time.sleep(1)
         print('-'*50)
         print('Você está no menu de upgrades!')
@@ -507,6 +548,34 @@ class Upgrade:
             print('Você não tem ouro suficiente!')
             print('-'*50)
 
+class Sounds():
+    def __init__(self):
+        pass   
+    
+    def Play_Intro(self):
+        pygame.mixer.music.load('sounds/maintheme.mp3')
+        pygame.mixer.music.play(-1)
+
+    def Attack(self):
+        attack = pygame.mixer.Sound('sounds/attack.flac')
+        pygame.mixer.Sound.play(attack)
+    
+    def Ability(self):
+        ability = pygame.mixer.Sound('sounds/ability.flac')
+        pygame.mixer.Sound.play(ability)
+
+    def Level_Up(self):
+        level_up = pygame.mixer.Sound('sounds/levelup.mp3')
+        pygame.mixer.Sound.play(level_up)
+
+    def Game_Over(self):
+        pygame.mixer.music.load('sounds/gameover.mp3')
+        pygame.mixer.music.play()
+    
+    def Open_chest(self):
+        open_chest = pygame.mixer.Sound('sounds/openchest.mp3')
+        pygame.mixer.Sound.play(open_chest)
+
 class Game:
     def __init__(self):
         self.game_over = False
@@ -525,6 +594,11 @@ class Game:
         self.choice = 0
 
     def Gaming(self):
+        print('-'*50)
+        print(Style.BRIGHT + Fore.YELLOW + 'Welcome to Dungeon Typing Delight!'+ Style.RESET_ALL)
+        print('-'*50)
+        sounds.Play_Intro()
+        time.sleep(1)
         self.Options()
         items_to_find.Chest_Event()
         while self.game_over != True:
@@ -573,13 +647,14 @@ class Game:
             return game.Selection()
 
     def Game_Over(self):
+        print('-'*50)
         print(f"Finalizando...")
+        print('-'*50)
+        sounds.Game_Over()
+        time.sleep(5)
         self.game_over = True
 
-print('-'*50)
-print(Style.BRIGHT + Fore.YELLOW + 'Welcome to Dungeon Typing Delight!'+ Style.RESET_ALL)
-print('-'*50)
-time.sleep(1)
+
 
 player = Player(100, 50, 0, 0)
 player_inventory = Player_Inventory()
@@ -592,5 +667,11 @@ game = Game()
 battle = Battle()
 market = Market()
 upgrade = Upgrade()
+sounds= Sounds()
+
+pygame.init()
+
+
+
 
 game.Gaming()
