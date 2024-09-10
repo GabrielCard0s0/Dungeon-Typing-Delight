@@ -102,7 +102,14 @@ class Items_to_Find:
         for i, weapon in enumerate(weapons, 1):
             print(f'{i}. {weapon} - Damage: {self.items[weapon]["damage"]}')
         print('-'*50)
-        choice = int(input('Which item do you want to take? > ')) - 1
+        while True:
+            try:
+                choice = int(input('Which item do you want to take? > ')) - 1
+                break  # sair do loop se tudo foi bem-sucedido
+            except (ValueError, TypeError) as e:
+                print('Invalid input. Please enter a number.')
+                time.sleep(1)
+                continue
         chosen_weapon = weapons[choice]
         print('-'*50)
         print(f'You took the {chosen_weapon}')
@@ -228,7 +235,16 @@ class Moves:
         print('-'*50)
         print('Choose your destiny:')
         print('North[N], South[S], East[E], West[W], Exit[X]:')
-        choice = input('> ').lower()
+        try:
+            choice = input('> ').lower()
+        except ValueError as e:
+            print('Invalid choice')
+            time.sleep(1)
+            self.Direction()
+        except TypeError as e:
+            print('Invalid choice')
+            time.sleep(1)
+            self.Direction()
         if choice == 'n':
             moves.Location_Change(choice)
             rest_room.Sleep()
@@ -267,7 +283,16 @@ class Market:
         print('-'*50)
         time.sleep(1)
         print(f'1. Buy a random Doc (50¢)\n 2. Buy a random chest (1000¢)\n X. go back')
-        action = input('> ').lower()
+        try:
+            action = input('> ').lower()
+        except ValueError as e:
+            print('Invalid choice')
+            time.sleep(1)
+            self.Shop()
+        except TypeError as e:
+            print('Invalid choice')
+            time.sleep(1)
+            self.Shop()
         while action != 'x':
             if action == '1':
                 if player.player_gold >= 50:
@@ -341,16 +366,34 @@ class Battle:
             print(f"Enemy's current PV: {Fore.GREEN}{round(self.enemy_health, 2)}{Style.RESET_ALL}, PE: {Fore.YELLOW}{round(self.enemy_energy, 2)}{Style.RESET_ALL}")
             print('-'*50)
             print('What do you do? (1) Attack, (2) Defend, (3) Use ability')
-            print('-'*50)
-            action = input('> ')
-            print('-'*50)
+            try:
+                print('-'*50)
+                action = input('> ')
+                print('-'*50)
+            except ValueError as e:
+                print(f'Invalid action: {e}')
+                time.sleep(1)
+                continue
+            except TypeError as e:
+                print(f'Invalid action: {e}')
+                time.sleep(1)
+                continue
             if action == '1':
                 time.sleep(1)
                 print('Choose a weapon to attack with: ')
                 weapons = list(player_inventory.player_items.keys())
                 for i, weapon in enumerate(weapons, 1):
                     print(f'{i}. {weapon}')
-                weapon_choice = int(input('> ')) - 1
+                try:
+                    weapon_choice = int(input('> ')) - 1
+                except ValueError as e:
+                    print(f'Invalid choice: {e}')
+                    time.sleep(1)
+                    continue
+                except TypeError as e:
+                    print(f'Invalid choice: {e}')
+                    time.sleep(1)
+                    continue
                 chosen_weapon = weapons[weapon_choice]
                 damage = player_inventory.player_items[chosen_weapon]['damage']
                 self.enemy_health -= damage
@@ -436,7 +479,16 @@ class Rest_Room:
         print(''*50)
         if self.player_rest >= 1:
             print(f'You need 1 sleep-point to sleep. Do you wanna use it? [S/N]')
-            action = input().lower()
+            try:
+                action = input('> ').lower()
+            except ValueError as e:
+                print(f'Invalid input: {e}')
+                time.sleep(1)
+                self.Sleep()
+            except TypeError as e:
+                print(f'Invalid input: {e}')
+                time.sleep(1)
+                self.Sleep()
             while action != 'n':
                 if action == 's':
                     self.player_rest -= 1
@@ -461,10 +513,10 @@ class Rest_Room:
 class Upgrade:
     def __init__(self):
         self.upgrade_options = [
-            '1. Upgrade de saúde (+10 PV)',
-            '2. Upgrade de energia (+10 PE)',
-            '3. Upgrade de dano (+5 de dano)',
-            '4. Upgrade de defesa (+5 de defesa)',
+            '1. Upgrade PV (+10 PV)[$50]',
+            '2. Upgrade PE (+10 PE)[$50]',
+            '3. Upgrade damage (+5 damage)[$200]',
+            '4. Upgrade defense (+5 defense)[$200]',
         ]
 
     def Upgrade_Menu(self):
@@ -474,11 +526,24 @@ class Upgrade:
         moves.current_location = moves.choice[0]
         time.sleep(1)
         print('-'*50)
-        print('Você está no menu de upgrades!')
+        print('You are in Upgrade Menu!')
         print('-'*50)
         for option in self.upgrade_options:
             print(option)
-        choice = int(input('> '))
+        try:
+            choice = int(input('> '))
+        except ValueError as e:
+            print('-'*50)
+            print('Invalid Option! Please, choose a valid option (1-4)')
+            print('-'*50)
+            time.sleep(1)
+            self.Upgrade_Menu()
+        except TypeError as e:
+            print('-'*50)
+            print('Invalid Option! Please, choose a valid option (1-4)')
+            print('-'*50)
+            time.sleep(1)
+            self.Upgrade_Menu()
         if choice == 1:
             self.Upgrade_Health()
         elif choice == 2:
@@ -491,6 +556,7 @@ class Upgrade:
             print('-'*50)
             print('Opção inválida!')
             print('-'*50)
+            time.sleep(1)
 
     def Upgrade_Health(self):
         time.sleep(1)
@@ -616,8 +682,17 @@ class Game:
     def Options(self):
         for option in self.options:
             print(f'{option}')
-        self.choice = int(input('> '))
-        return self.Selectoption()
+        try:
+            self.choice = int(input('> '))
+        except ValueError as e:
+            print(f'{Fore.RED}Invalid Input! Try again.{Style.RESET_ALL}')
+            time.sleep(1)
+            self.Options()
+        except TypeError as e:
+            print(f'{Fore.RED}Invalid Input! Try again.{Style.RESET_ALL}')
+            time.sleep(1)
+            self.Options()
+        self.Selectoption()
     
     def Selectoption(self):
         if self.choice == 1:
@@ -628,7 +703,16 @@ class Game:
     def Selection(self):
         for selection in self.selections:
             print(f'{selection}')
-        choice = int(input('> '))
+        try:
+            choice = int(input('> '))
+        except ValueError as e:
+            print(f'{Fore.RED}Invalid Input! Try again.{Style.RESET_ALL}')
+            time.sleep(1)
+            self.Selection()
+        except TypeError as e:
+            print(f'{Fore.RED}Invalid Input! Try again.{Style.RESET_ALL}')
+            time.sleep(1)
+            self.Selection()
         if choice == 1:
             moves.Print_Location()
         elif choice == 2:

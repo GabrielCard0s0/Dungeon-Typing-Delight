@@ -1,7 +1,8 @@
 # Dungeon-Typing-Delight
 # Author: Gabriel Cardoso
-# Last Update: 2022-09-07
-# Version: 1.0
+# Last Update: 2024-09-10
+# Python-Version: 3.12.3
+# Game-Version: 1.0.1
 ---
 - Description: A simple text-based RPG where the player must type the correct words to progress through the room.
 ---
